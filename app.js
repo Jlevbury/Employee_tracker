@@ -18,63 +18,56 @@ function start() {
 				"Exit",
 			],
 		})
-		.then((answer) => {
-			// Based on the user's answer, call the appropriate function
-			switch (answer.action) {
-				case "View all departments":
-					function viewAllDepartments() {
-						const query = "SELECT * FROM department";
-						connection.query(query, (err, res) => {
-							if (err) throw err;
-							console.log(res);
-							start();
-						});
-					}
+        .then((answer) => {
+            // Based on the user's answer, call the appropriate function
+            switch (answer.action) {
+              case "View all departments":
+                viewAllDepartments();
+                break;
+              case "View all roles":
+                viewAllRoles();
+                break;
+              case "View all employees":
+                viewAllEmployees();
+                break;
+              case "Add a department":
+                addDepartment();
+                break;
+              case "Add a role":
+                addRole();
+                break;
+              case "Add an employee":
+                addEmployee();
+                break;
+              case "Update an employee role":
+                updateRole();
+                break;
+              case "Exit":
+                connection.end();
+                break;
+              default:
+                console.log(`Invalid action: ${answer.action}`);
+                break;
+            }
+          });
+        
 
-					break;
-				case "View all roles":
-					function viewAllRoles() {
-						const query = "SELECT * FROM role";
-						connection.query(query, (err, res) => {
-							if (err) throw err;
-							console.log(res);
-							start();
-						});
-					}
+function viewAllDepartments() {
+            const query = "SELECT * FROM department";
+            connection.query(query, (err, res) => {
+                if (err) throw err;
+                console.log(res);
+                start();
+            });
 
-					break;
-				case "View all employees":
-					function viewAllEmployees() {
-						const query = "SELECT * FROM employee";
-						connection.query(query, (err, res) => {
-							if (err) throw err;
-							console.log(res);
-							start();
-						});
-					}
-
-					break;
-				case "Add a department":
-					function addDepartment() 
-					}
-					break;
-				case "Add a role":
-					function addRole()
-					break;
-				case "Add an employee":
-					function addEmployee()
-					break;
-				case "Update an employee role":
-					function updateRole()
-					break;
-				case "Exit":
-					connection.end();
-					break;
-				default:
-					console.log(`Invalid action: ${answer.action}`);
-					break;
-			}
-		});
+function viewAllRoles() {
+                const query = "SELECT * FROM role";
+                connection.query(query, (err, res) => {
+                    if (err) throw err;
+                    console.log(res);
+                    start();
+  });
+}
 
 function addDepartment() {
     inquirer
@@ -135,6 +128,7 @@ function addDepartment() {
         );
       });
   }
+
   function addEmployee() {
     inquirer
       .prompt([
@@ -158,6 +152,15 @@ function addDepartment() {
         );
       });
   }
+
+  function viewAllEmployees() {
+    const query = "SELECT * FROM employee";
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        start();
+    
+    });
 
   function updateRole() {
     connection.query("SELECT * FROM employee", function(err, employees) {
